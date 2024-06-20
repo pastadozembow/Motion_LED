@@ -1,4 +1,5 @@
-from machine import WDT, Pin, Timer, Counter, Time
+from machine import WDT, Pin, Timer, Counter,
+import time
 wdt = WDT(timeout=2000) # enable the watchdog timer with timeout of 100ms
 led = Pin(16, Pin.OUT)
 PIR = Pin(15, Pin.IN)
