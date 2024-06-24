@@ -1,4 +1,4 @@
-from machine import WDT, Pin, Timer, Counter,
+from machine import WDT, Pin, Timer, Counter
 import time, mutex
 
 led = Pin(16, Pin.OUT)
@@ -13,10 +13,12 @@ def handler(timer):
         mutex.release()
 
 wdt = WDT(timeout=2000) # enable the watchdog timer with timeout of 2000ms
-PIR.irq(trigger=Pin.IRQ_RISING, handler=handler) # eable irq interrupt when rising edge on pin 15 is detected
+PIR.irq(trigger=Pin.IRQ_RISING, handler=handler) # call handler func when rising edge on pin 15 is detected
 
 while(true):
-    if(PIRval == true):
+    with mutex:
+        PIRtempVal = PIRval
+    if(PIRtempVal == true):
         led.value(1)
         for i in range(60):
             time.sleep(1)
@@ -25,4 +27,3 @@ while(true):
         PIRval = false
     led.value(0)
     wdt.feed()
-            
